@@ -23,6 +23,7 @@ class ProjectsTableSeeder extends Seeder
             $newProject->customer_name = $faker->name();
             $newProject->period = $faker->sentence();
             $newProject->description = $faker->paragraph();
+            $newProject->type_id = rand(1, 8);
 
             $newProject->save();
         }

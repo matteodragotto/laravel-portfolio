@@ -1,0 +1,36 @@
+@import '~bootstrap/scss/bootstrap';
+
+
+.orbitron-titles {
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600; // 400 - 900
+  font-style: normal;
+}
+
+.orbitron-text {
+  font-family: "Orbitron", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400; // 400 - 900
+  font-style: normal;
+}
+
+
+.exo-2 {
+  font-family: "Exo 2", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200; // 100 - 900
+  font-style: normal;
+}
+
+body {
+  background-color: #000035 !important;
+  font-family: "Orbitron", sans-serif !important;
+  font-optical-sizing: auto;
+  font-weight: 400; // 400 - 900
+  font-style: normal;
+}
+
+.table-transparent {
+  background-color: transparent !important;
+}
