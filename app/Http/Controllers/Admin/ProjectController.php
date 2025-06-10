@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -22,7 +24,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('projects.create');
+        $types = Type::all();
+        $technologies = Technology::all();
+        return view('projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -37,9 +41,15 @@ class ProjectController extends Controller
         $newProject->project_name = $data['project_name'];
         $newProject->customer_name = $data['customer_name'];
         $newProject->period = $data['period'];
+        $newProject->type_id = $data['type_id'] ?? null;
         $newProject->description = $data['description'];
 
         $newProject->save();
+
+        if ($request->has('technologies')) {
+            $newProject->technologies()->attach($data['technologies']);
+        }
+
 
         return redirect()->route('projects.show', $newProject->id);
     }
@@ -57,7 +67,10 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('projects.edit', compact('project'));
+        $types = Type::all();
+        $technologies = Technology::all();
+
+        return view('projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -70,9 +83,17 @@ class ProjectController extends Controller
         $project->project_name = $data['project_name'];
         $project->customer_name = $data['customer_name'];
         $project->period = $data['period'];
+        $project->type_id = $data['type_id'] ?? null;
         $project->description = $data['description'];
 
         $project->update();
+
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($data['technologies']);
+        } else {
+            $project->technologies()->detach();
+        }
+
 
         return redirect()->route('projects.show', $project->id);
     }
@@ -82,6 +103,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        // Detach related technologies before deleting the project
+        $project->technologies()->detach();
         $project->delete();
 
         return redirect()->route('projects.index');

@@ -43,6 +43,16 @@
             <h4>Cliente: {{ $project->customer_name }}</h4>
 
             <small class="my-2">Periodo: {{ $project->period }}</small>
+            <small class="my-2">Categoria: {{ $project->type->name }}</small>
+
+            @if (count($project->technologies) > 0)
+                <small class="my-2">
+                    Tecnologie: @foreach ($project->technologies as $technology)
+                        <span class="badge"
+                            style="background-color: {{ $technology->color }}">{{ $technology->name }}</span>
+                    @endforeach
+                </small>
+            @endif
         </div>
 
 
