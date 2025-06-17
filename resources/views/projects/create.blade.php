@@ -3,7 +3,7 @@
 @section('title', 'Inserisci un progetto')
 
 @section('content')
-    <form action="{{ route('projects.store') }}" method="POST">
+    <form action="{{ route('projects.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="form-control mb-3 d-flex flex-column">
@@ -39,6 +39,12 @@
                 </div>
             @endforeach
         </div>
+
+        <div class="form-control mb-3 d-flex flex-wrap gap-3">
+            <label for="image">Immagine</label>
+            <input id="image" name="image" type="file">
+        </div>
+
 
         <div class="form-control mb-3 d-flex flex-column">
             <textarea class="form-control" name="description" id="description" required></textarea>

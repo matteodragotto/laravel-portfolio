@@ -3,7 +3,7 @@
 @section('title', 'Modifica il progetto')
 
 @section('content')
-    <form action="{{ route('projects.update', $project->id) }}" method="POST">
+    <form action="{{ route('projects.update', $project->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         @method('PUT')
@@ -43,6 +43,19 @@
                 </div>
             @endforeach
         </div>
+
+        <div class="form-control mb-3 d-flex flex-wrap gap-3">
+            <label for="image">Immagine</label>
+            <input id="image" name="image" type="file">
+
+            @if ($project->image)
+                <div id="project_image">
+                    <img class="img-fluid w-25" src="{{ asset('storage/' . $project->image) }}"
+                        alt="Copertina del progetto">
+                </div>
+            @endif
+        </div>
+
 
         <div class="form-control mb-3 d-flex flex-column">
             <textarea class="form-control" name="description" id="description" required>{{ $project->description }}</textarea>

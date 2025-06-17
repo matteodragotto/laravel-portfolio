@@ -4,6 +4,12 @@
 @section('title', $project->project_name)
 
 @section('content')
+    @if ($project->image)
+        <div id="project_image">
+            <img src="{{ asset('storage/' . $project->image) }}" alt="Copertina del progetto">
+        </div>
+    @endif
+
 
     <div class="container text-light">
         <div class="d-flex p-4 gap-3 justify-content-center align-items-center">

@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -43,6 +44,11 @@ class ProjectController extends Controller
         $newProject->period = $data['period'];
         $newProject->type_id = $data['type_id'] ?? null;
         $newProject->description = $data['description'];
+
+        if (array_key_exists('image', $data)) {
+            $img_url = Storage::putFile('projects', $data['image']);
+            $newProject->image = $img_url;
+        }
 
         $newProject->save();
 
@@ -86,6 +92,14 @@ class ProjectController extends Controller
         $project->type_id = $data['type_id'] ?? null;
         $project->description = $data['description'];
 
+        if (array_key_exists('image', $data)) {
+
+            Storage::delete($project->image);
+
+            $img_url = Storage::putFile('projects', $data['image']);
+            $project->image = $img_url;
+        }
+
         $project->update();
 
         if ($request->has('technologies')) {
@@ -103,7 +117,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        // Detach related technologies before deleting the project
+        if ($project->image) {
+            Storage::delete($project->image);
+        }
+
         $project->technologies()->detach();
         $project->delete();
 
